@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Images</title>
+</head>
+<style>
+    div {
+        margin: 5px;
+        padding: 5px;
+        
+    }
+    .table {
+        display: table;
+    }
+    .td {
+        display: table-row;
+    }
+    .tr{
+        display: table-cell;
+    }
+    img{
+        width: 210px;
+        height: 230px;
+    }
+</style>
+
+<body onload="load()" style="background:whitesmoke;">
+    <header>
+        <img src="js.jpg" alt="JS" style="width:40px;height:40px;">
+        <text>Welcome to Image Previewer!</text>
+        <text>Hi,
+            <text id="nameUser"></text>!</text>
+        <a href="authorization.html"><img src="exit.jpg" alt="exit" style="width:20px;height:20px;"></a>
+        <br>
+        <canvas height="0,3px" width="700px" style="border:1px solid gray;"></canvas>
+    </header>
+    <form>
+        <input type="search" placeholder="Search by keyword">
+        <input type="submit" value="Search">
+        <p></p>
+        <div class="table">
+            <div class="td">
+                <div class="tr"><img src="js.jpg"></div>
+                <div class="tr"><img src="js.jpg"></div>
+                <div class="tr"><img src="js.jpg"></div>
+                <div class="tr"><img src="js.jpg"></div>
+            </div>
+        </div>
+    </form>
+    <footer>
+    </footer>
+</body>
+<script>
+    function load() {
+        var name = document.getElementById("nameUser");
+        name.innerHTML = "Sveta";
+    }
+
+</script>
+
+</html>
