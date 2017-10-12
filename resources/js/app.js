@@ -104,18 +104,19 @@ var app = {};
 
         $('#publishButton').on('click', function () {
             var file = {
-                name: $('#fileName').val(),
-                type: modalModel.file.name.substring(modalModel.file.name.lastIndexOf('.')),
-                description: $('#fileDescription').val(),
-                tags: $('#selectTags').val()
+                'app-file_name': $('#fileName').val(),
+                'app-file_type': modalModel.file.name.substring(modalModel.file.name.lastIndexOf('.')),
+                'app-file_description': $('#fileDescription').val(),
+                'app-file_tags': JSON.stringify($('#selectTags').val())
             }
-            var url = ['/images/new', JSON.stringify(file)].join('/');
+            var url = ['/images/new'].join('/');
             var reader = new FileReader();
             reader.onload = (function (e) {
                 $.ajax({
                     method: "POST",
                     url: url,
                     processData: false,
+                    headers: file,
                     data: new Int8Array(e.target.result),
                     success: function (data) {
                         app.load(false);

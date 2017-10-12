@@ -8,7 +8,16 @@ const path = require('path');
 const db = require('../database');
 
 router.get('/all', function (req, res) {
-    db.models.image.findAll({ offset: +req.query.offset, limit: +req.query.pageSize, order: [['createdAt', 'DESC']] }).then((data) => {
+    var query = { offset: +req.query.offset, limit: +req.query.pageSize, order: [['createdAt', 'DESC']] }
+    if (req.query.filter) {
+        query.where = {
+            $or: [
+                { name: { $like: `${req.query.filter}%` } },
+                { tags: { $like: `%${req.query.filter}%` } },
+            ]
+        }
+    }
+    db.models.image.findAll().then((data) => {
         console.log(data);
         res.send(data.map(item => {
             return item.dataValues;
@@ -24,12 +33,21 @@ router.get('/get/:name', function (req, res) {
     }
 });
 
-router.post('/new/:imageDescJson', function (req, res) {
-    var imageDesc = JSON.parse(req.params.imageDescJson);
+
+
+router.post('/new/', function (req, res) {
+    // var imageDesc = JSON.parse(req.params.imageDescJson);
+    db.models.tag.findAll({ where: { name: { $in: JSON.parse(req.headers['app-file_tags']) } } }).then(items => {
+        items.forEach(item => {
+            item.count++
+            item.save();
+        })
+    })
+
     db.models.image.create({
-        name: `${imageDesc.name}.${imageDesc.type}`,
-        tags: JSON.stringify(imageDesc.tags),
-        description: imageDesc.description,
+        name: `${req.headers['app-file_name']}.${req.headers['app-file_type']}`,
+        tags: req.headers['app-file_tags'],
+        description: req.headers['app-file_description'],
     }).then(data => {
         res.send({ status: 'ok' })
         req.pipe(fs.createWriteStream(`./resources/images/${data.name}`));
