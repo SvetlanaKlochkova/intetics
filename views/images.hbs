@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Images</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/resources/css/select2.min.css">
+    <script type="text/javascript" src="/resources/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/resources/js/dropzone.js"></script>
+    <script type="text/javascript" src="/resources/js/select2.min.js"></script>
+</head>
+<style>
+    .full-width {
+        width: 100%;
+    }
+
+    .file-drop {
+        background: url('/resources/img/default.png');
+        background-position: center;
+        cursor: pointer;
+    }
+
+    .div {
+        margin: 5px;
+        padding: 5px;
+    }
+
+    .table {
+        display: table;
+        width: 1000px;
+        margin: 5px;
+        padding: 5px;
+    }
+
+    .tr {
+        display: table-cell;
+        width: 220px;
+        height: 230px;
+    }
+
+    img {
+        width: 210px;
+        height: 240px;
+    }
+
+    .dz-filename {
+        display: none;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .dz-preview {
+        display: none;
+    }
+
+    .dz-file-preview {
+        display: none;
+    }
+
+    .dz-size {
+        display: none;
+    }
+
+    .dz-progress {
+        display: none;
+    }
+
+    .dz-success-mark {
+        display: none;
+    }
+
+    .dz-error-mark {
+        display: none;
+    }
+
+    .dz-error-message {
+        display: none;
+    }
+
+    .modalwin {
+        height: 500px;
+        width: 80%;
+        border: 3px outset gray;
+        background: white;
+        top: 10%;
+        /* отступ сверху */
+        right: 0;
+        left: 0;
+        margin: 0 auto;
+        z-index: 2;
+        /* поверх всех */
+        position: fixed;
+        /* фиксированное позиционирование, окно стабильно при прокрутке */
+        padding: 10px;
+        border: 1px solid #383838;
+    }
+
+    .col {
+        float: left;
+        min-height: 1px;
+        width: 50%;
+    }
+
+    .description {
+        width: 250px;
+        height: 90px;
+        margin-top: 10px;
+    }
+
+    .button {
+        background-color: green;
+        border: none;
+        color: white;
+        width: 120px;
+        height: 30px;
+        float: right;
+        border-radius: 5px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .tableTags {
+        border: 0.5px solid grey;
+        width: 250px;
+        height: 50px;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+
+<body style="background:whitesmoke;">
+    <header>
+        <img src="/resources/images/js.jpg" alt="JS" style="width:40px;height:40px;">
+        <text>Welcome to Image Previewer!</text>
+        <text>Hi,
+            <text id="nameUser">{{username}}</text>!</text>
+        <a href="/auth/logout">
+            <img src="/resources/images/exit.jpg" alt="exit" style="width:20px;height:20px;">
+        </a>
+        <br>
+        <canvas height="0,3px" width="700px" style="border:1px solid gray;"></canvas>
+    </header>
+    <form>
+        <input type="search" placeholder="Search by keyword">
+        <input type="submit" value="Search">
+        <p></p>
+    </form>
+    <div class="table">
+        <span id='imagesList'>
+        </span>
+    </div>
+    <div id="popupWin" class="modalwin">
+        <div class="col">
+            <h3 style="margin:20px;">ADD IMAGES</h3>
+            <form style="display: none;" enctype="multipart/form-data" id="fileForm">
+                <input type="file" id="fileInput" name="file">
+            </form>
+            <div class="file-drop" id="file-preview" style="margin:20px; width:calc(100% - 40px); border:solid 1px; min-height:400px;">
+                <h3>Click to select Image</h3>
+                <img id="file-thumbnail" style="max-width:100%; width:auto; max-height:100%; height:auto;" />
+                <span id="preview-file" style="display: none;"></span>
+            </div>
+
+        </div>
+        <div class="col">
+            <h3>ADD INFO</h3>
+            <div class="input">
+                <label>Name your media</label>
+                <div>
+                    <input type="text" id="fileName" style="margin-top: 10px; width: 100%;">
+                </div>
+            </div>
+            <div class="input full-width">
+                <div>
+                    <label>Add tags</label>
+                </div>
+                {{!--
+                <div class="tableTags" style="margin-top: 10px;">
+                    <hr>
+                    <div style="margin-top: 19px;">
+                        <input type="text" placeholder="Write a tag..." style="width:150px">
+                        <input type="submit" value="Add tag" style="margin-top: 10px; margin-left: 25px;">
+                    </div>
+                </div> --}}
+                <div>
+                    <select id="selectTags" class="full-width" multiple>
+                        <option value="tag1">tag1</option>
+                        <option value="tag2">tag2</option>
+                        <option value="tag3">tag3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input full-width">
+                <label>Add description</label>
+                <div>
+                    <textarea class="description full-width" style="height: 200px;  resize: none;" id="fileDescription"></textarea>
+                </div>
+            </div>
+            <button class="button" id="publishButton">Publish</button>
+
+        </div>
+    </div>
+    <footer>
+    </footer>
+</body>
+<script src="/resources/js/app.js">
+</script>
+
+</html>

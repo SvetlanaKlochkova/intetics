@@ -2,16 +2,18 @@
   "name": "intetic",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node main.js"
   },
   "author": "svetlana klochkova",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.1",
+    "express-session": "^1.15.6",
+    "hbs": "^4.0.1",
     "mysql": "^2.14.1",
     "mysql2": "^1.4.2",
     "pg": "^7.3.0",

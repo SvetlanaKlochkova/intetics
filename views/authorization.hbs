@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Authorization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/resources/js/jquery-3.1.1.min.js"></script>
+</head>
+<style>
+    .brd {
+        border: 1px groove gray;
+        padding: 5px;
+        margin: auto;
+        width: 250px;
+        text-align: center;
+    }
+
+    .btn {
+        width: 170px;
+    }
+
+    .text {
+        margin: auto;
+        text-align: center;
+        font-size: 11pt;
+    }
+</style>
+
+<body style="background:whitesmoke;">
+    <form action="/auth/login" method="POST" id="user" name="user" enctype="application/x-www-form-urlencoded">
+        <div class="brd">
+            <h3>SIGN IN</h3>
+            <input id="email" name="email" type="email" placeholder="Email Address" autofocus required>
+            <p><input id="password" name="password" type="password" placeholder="Password" required></p>
+            <p><input type="submit" class="btn" value="Login"></p>
+        </div>
+        <div class="text">
+            Don't have an account? <a href="/auth/registration">Signup</a>
+        </div>
+    </form>
+</body>
+
+</html>
