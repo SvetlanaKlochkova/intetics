@@ -1,5 +1,5 @@
 const express = require('express');
-
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
@@ -29,5 +29,9 @@ app.use('/', indexRoute);
 app.use('/auth', loginRoute);
 app.use('/images', imageRoute);
 app.use('/tags', tagRoute);
+
+fs.mkdir('./resources/images', (err, cb) => { 
+    console.error(err);
+})
 
 app.listen(process.env.PORT || 3000);
