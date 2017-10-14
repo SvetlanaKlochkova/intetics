@@ -31,6 +31,11 @@ sequelize.define('tag', {
 sequelize
     .sync()
     .then(() => {
+        sequelize.models.user.create({
+            username: 'admin',
+            email: 'admin@admin',
+            password: 'admin' //Password hashing will be added later
+        })
         console.log('Connection has been established successfully.');
     })
     .catch(err => {
