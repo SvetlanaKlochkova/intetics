@@ -154,7 +154,7 @@
         <span id='imagesList'>
         </span>
     </div>
-    <div id="popupWin" class="modalwin">
+    <div id="popupWin" class="modalwin hidden">
         <div class="col">
             <h3 style="margin:20px;">ADD IMAGES</h3>
             <form style="display: none;" enctype="multipart/form-data" id="fileForm">
@@ -179,14 +179,6 @@
                 <div>
                     <label>Add tags</label>
                 </div>
-                {{!--
-                <div class="tableTags" style="margin-top: 10px;">
-                    <hr>
-                    <div style="margin-top: 19px;">
-                        <input type="text" placeholder="Write a tag..." style="width:150px">
-                        <input type="submit" value="Add tag" style="margin-top: 10px; margin-left: 25px;">
-                    </div>
-                </div> --}}
                 <div>
                     <select id="selectTags" class="full-width" multiple>
                         <option value="tag1">tag1</option>
@@ -205,10 +197,7 @@
 
         </div>
     </div>
-    <footer>
-    </footer>
 </body>
 <script src="/resources/js/app.js">
 </script>
-
 </html>

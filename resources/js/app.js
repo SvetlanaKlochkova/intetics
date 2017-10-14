@@ -11,17 +11,6 @@ var app = {};
 
     }
 
-    app.loadTopTags = function (renderTags) {
-        $.ajax({
-            method: "GET",
-            url: " /tags/top/25",
-            processData: true,
-            success: function (data) {
-                renderTags(data);
-            }
-        });
-
-    }
 
     app.load = function (more) {
         $.ajax({
@@ -56,34 +45,26 @@ var app = {};
     $(document).ready(function () {
         app.load(false);
 
-        app.loadTopTags(function (tags) {
-            modalModel.topTags = tags;
-
-            modalModel.topTags.forEach(function (item) {
-                $('#selectTags').append(new Option(item.name, item.name, false, false))
-            });
-
-            $('#selectTags').select2({
-                minimumInputLength: 3,
-                ajax: {
-                    url: '/tags/',
-                    data: function (params) {
-                        var query = {
-                            name: params.term,
-                        }
-                        // Query parameters will be ?search=[term]&type=public
-                        return query;
-                    },
-
-                    processResults: function (data) {
-                        // Tranforms the top-level key of the response object from 'items' to 'results'
-                        return {
-                            results: data.map(function (item) { return { id: item.name, text: item.name } })
-                        };
+        $('#selectTags').select2({
+            ajax: {
+                url: '/tags/',
+                data: function (params) {
+                    var query = {
+                        name: params.term,
                     }
-                    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                    // Query parameters will be ?search=[term]&type=public
+                    return query;
+                },
+
+                processResults: function (data) {
+                    // Tranforms the top-level key of the response object from 'items' to 'results'
+                    return {
+                        results: data.map(function (item) { return { id: item.name, text: item.name } })
+                    };
                 }
-            });
+                // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+            }
+
         });
 
         var drop = $('#file-thumbnail');

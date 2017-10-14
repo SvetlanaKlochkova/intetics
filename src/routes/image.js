@@ -33,16 +33,32 @@ router.get('/get/:name', function (req, res) {
     }
 });
 
+tagName = (str) => {
+    if (str.startsWith('#')) {
+        return str.toLowerCase();
+    } else {
+        return `#${str}`.toLowerCase();
+    }
+}
 
+function touchTags(tags) {
+    tags.forEach(name => {
+        db.models.tag.findAll({ where: { name: tagName(name) } }).then((data) => {
+            if (data.length == 0) {
+                db.models.tag.create({ name: tagName(name), count: 1 });
+            } else {
+                data.forEach(item => {
+                    item.count++;
+                    item.save();
+                })
+            }
+        });
+    });
+}
 
 router.post('/new/', function (req, res) {
     // var imageDesc = JSON.parse(req.params.imageDescJson);
-    db.models.tag.findAll({ where: { name: { $in: JSON.parse(req.headers['app-file_tags']) } } }).then(items => {
-        items.forEach(item => {
-            item.count++
-            item.save();
-        })
-    })
+    touchTags(JSON.parse(req.headers['app-file_tags']));
 
     db.models.image.create({
         name: `${req.headers['app-file_name']}.${req.headers['app-file_type']}`,
