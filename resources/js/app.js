@@ -122,7 +122,7 @@ var app = {};
                         app.load({
                             more: false,
                             offset: 0,
-                            pageSize: pageModel.images.length
+                            pageSize: 11
                         });
                         pageModel.images = [];
                         modalModel = {}
