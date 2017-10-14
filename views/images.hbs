@@ -38,19 +38,15 @@
         height: 230px;
     }
 
-    img {
+    .preview-img {
         width: 210px;
-        height: 240px;
     }
 
     .dz-filename {
         display: none;
     }
 
-    img {
-        max-width: 100%;
-        max-height: 100%;
-    }
+
 
     .dz-preview {
         display: none;
@@ -145,11 +141,11 @@
         <br>
         <canvas height="0,3px" width="700px" style="border:1px solid gray;"></canvas>
     </header>
-    <form>
-        <input type="search" placeholder="Search by keyword">
-        <input type="submit" value="Search">
-        <p></p>
-    </form>
+
+    <input type="search" id="imageSearch" placeholder="Search by keyword">
+    <input type="submit" id="searchButton" value="Search">
+    <p></p>
+
     <div class="table">
         <span id='imagesList'>
         </span>
@@ -180,7 +176,7 @@
                     <label>Add tags</label>
                 </div>
                 <div>
-                    <select id="selectTags" class="full-width" multiple>
+                    <select id="selectTags" style="width: 100%" class="full-width" multiple>
                         <option value="tag1">tag1</option>
                         <option value="tag2">tag2</option>
                         <option value="tag3">tag3</option>
@@ -190,7 +186,7 @@
             <div class="input full-width">
                 <label>Add description</label>
                 <div>
-                    <textarea class="description full-width" style="height: 200px;  resize: none;" id="fileDescription"></textarea>
+                    <textarea class="description full-width" style="height: 200px;  width:100%; resize: none;" id="fileDescription"></textarea>
                 </div>
             </div>
             <button class="button" id="publishButton">Publish</button>

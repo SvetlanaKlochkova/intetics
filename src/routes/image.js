@@ -8,7 +8,13 @@ const path = require('path');
 const db = require('../database');
 
 router.get('/all', function (req, res) {
-    var query = { offset: +req.query.offset, limit: +req.query.pageSize, order: [['createdAt', 'DESC']] }
+    var query = { order: [['createdAt', 'DESC']] }
+    if (req.query.offset) {
+        query.offset = +req.query.offset;
+    }
+    if (req.query.pageSize) {
+        query.limit = +req.query.pageSize;
+    }
     if (req.query.filter) {
         query.where = {
             $or: [
@@ -17,7 +23,7 @@ router.get('/all', function (req, res) {
             ]
         }
     }
-    db.models.image.findAll().then((data) => {
+    db.models.image.findAll(query).then((data) => {
         console.log(data);
         res.send(data.map(item => {
             return item.dataValues;
@@ -68,7 +74,7 @@ router.post('/new/', function (req, res) {
     }).then(data => {
 
         req.pipe(file);
-        file.on('end', ev => {
+        file.on('finish', ev => {
             res.send({ status: 'ok' })
         })
         file.on('error', err => {

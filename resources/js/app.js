@@ -1,36 +1,42 @@
 var app = {};
 (function () {
-    var pageModel = {
+    var queryModel = {
         pageSize: 11,
         offset: 0,
-        images: [],
-        defaultTags: []
-    };
+        more: true,
 
+    };
+    var pageModel = {
+        images: []
+    }
     var modalModel = {
 
     }
 
 
-    app.load = function (more) {
+    app.load = function (opts) {
         $.ajax({
             method: "GET",
             url: "/images/all",
             processData: true,
-            data: pageModel,
+            data: opts,
             success: function (data) {
-                app.loadImages(data, more);
+                if (data.length != 0) {
+                    queryModel.offset += data.length;
+                }
+                pageModel.images = pageModel.images.concat(data);
+                app.loadImages(pageModel.images, opts.more);
             }
         });
     }
 
     app.loadImages = function (images, more) {
+        imagesList.innerHTML = '<div class="tr"><a href="javascript:app.showModalWin(true);"><img src="/resources/images/add.jpg" /></a></div>';
+
         var htmlRows = images.map(function (image) {
-            return '<div class="tr"><img src="/images/get/' + image.name + '"></div>';
+            return '<div class="tr"><img class="preview-img" src="/images/get/' + image.name + '"></div>';
         })
-        if (!more) {
-            imagesList.innerHTML = '<div class="tr"><a href="javascript:app.showModalWin(true);"><img src="/resources/images/add.jpg" /></a></div>';
-        }
+
         imagesList.innerHTML += htmlRows.join('');
     }
 
@@ -43,7 +49,15 @@ var app = {};
     }
 
     $(document).ready(function () {
-        app.load(false);
+        app.load(queryModel);
+        $('#imageSearch').on('input', function (evt) {
+            queryModel.filter = evt.target.value;
+        })
+
+        $('#searchButton').on('click', function () {
+            pageModel.images = [];
+            app.load({ filter: queryModel.filter, offset: 0 });
+        });
 
         $('#selectTags').select2({
             ajax: {
@@ -100,22 +114,29 @@ var app = {};
                     headers: file,
                     data: new Int8Array(e.target.result),
                     success: function (data) {
-                        app.load(false);
+                        queryModel.more = false;
+                        $('#fileName').val(null);
+                        $('#file-thumbnail').attr('src', null);
+                        $('#selectTags').val(null).trigger('change')
+                        app.load({
+                            more: false,
+                            offset: 0,
+                            pageSize: pageModel.images.length
+                        });
+                        modalModel = {}
                     }
                 });
             });
             reader.readAsArrayBuffer(modalModel.file);
             app.showModalWin(false);
-            // $.ajax({
-            //     method: "POST",
-            //     url: url,
-            //     processData: false,
-            //     data: new FormData(fileForm),
-            //     success: function (data) {
-            //         app.load();
-            //     }
-            // });
-
         })
+
+        $(window).scroll(function () {
+            console.log(Math.round(($(window).scrollTop() + $(window).height()) / $(document).height()));
+            if (Math.round(($(window).scrollTop() + $(window).height()) / $(document).height()) == 1) {
+                queryModel.more = true;
+                app.load(queryModel);
+            }
+        });
     });
 })()
