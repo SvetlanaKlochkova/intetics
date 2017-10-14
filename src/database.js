@@ -1,6 +1,9 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('intetics', 'root', 'admin', {
+
+const sequelize = process.env.DATABASE_URL ? new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres'
+}) : new Sequelize('intetics', 'root', 'admin', {
     host: '127.0.0.1',
     dialect: 'mysql'
 });
