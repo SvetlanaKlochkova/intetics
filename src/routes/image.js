@@ -59,16 +59,20 @@ function touchTags(tags) {
 router.post('/new/', function (req, res) {
     // var imageDesc = JSON.parse(req.params.imageDescJson);
     touchTags(JSON.parse(req.headers['app-file_tags']));
-    const file = fs.createWriteStream(`./resources/images/${data.name}`);
+    const fileName = `${req.headers['app-file_name']}.${req.headers['app-file_type']}`;
+    const file = fs.createWriteStream(`./resources/images/${fileName}`);
     db.models.image.create({
-        name: `${req.headers['app-file_name']}.${req.headers['app-file_type']}`,
+        name: `${fileName}`,
         tags: req.headers['app-file_tags'],
         description: req.headers['app-file_description'],
     }).then(data => {
 
-        req.pipe(fs.createWriteStream(`./resources/images/${data.name}`));
+        req.pipe(file);
         file.on('end', ev => {
             res.send({ status: 'ok' })
+        })
+        file.on('error', err => {
+            res.send(err);
         })
     })
 
