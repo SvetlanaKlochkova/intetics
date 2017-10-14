@@ -118,12 +118,13 @@ var app = {};
                         $('#fileName').val(null);
                         $('#file-thumbnail').attr('src', null);
                         $('#selectTags').val(null).trigger('change')
-                        pageModel.images = [];
+                       
                         app.load({
                             more: false,
                             offset: 0,
                             pageSize: pageModel.images.length
                         });
+                        pageModel.images = [];
                         modalModel = {}
                     }
                 });
