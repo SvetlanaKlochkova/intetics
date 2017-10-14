@@ -29,7 +29,7 @@ router.get('/get/:name', function (req, res) {
     try {
         fs.createReadStream(`./resources/images/${req.params.name}`).pipe(res);
     } catch (x) {
-        fs.createReadStream(`./resources/images/default-image_450.png`).pipe(res);
+        fs.createReadStream(`./resources/img/default.png`).pipe(res);
     }
 });
 
