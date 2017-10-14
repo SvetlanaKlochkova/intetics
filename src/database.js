@@ -29,7 +29,7 @@ sequelize.define('tag', {
 
 
 sequelize
-    .sync()
+    .sync({ force: true })
     .then(() => {
         sequelize.models.user.create({
             username: 'admin',
