@@ -73,7 +73,7 @@ var app = {};
             autoProcessQueue: false,
             previewContainer: "span.preview-file",
             thumbnailWidth: null,
-            thumbnailHeight: $('div#file-preview').height() - 20,
+            thumbnailHeight: null,
             thumbnail: function (file, dataUrl) {
                 drop.attr('src', dataUrl)
             },
